@@ -7,6 +7,7 @@ int entered_symb = 0;
 int Difficulty, Time, Mistakes;
 bool isStarted = false, isMove = false, isMistake = false;
 
+static int words = 0;
 static int mist_count = 0;
 static bool isEnded = false, isTheEnd = false, isClose = false;
 
@@ -182,6 +183,9 @@ int main (int argc, char *argv[]) {
                         isMistake = true;
                         mist_count++;
                     }
+
+                    if(current_symb == ' ')
+                        words++;
                     
                     MovePointer(line_len[line_count], &line_count);
                     ShowPointer(dc);
@@ -236,27 +240,35 @@ int main (int argc, char *argv[]) {
                 if (!isTheEnd){
                     ClearWindow(dc);
                     char buf[10] = "";
-                    char table[4][20] = {"Total symbols: ", "Mistakes: ", "Total time: ", "Average speed: "};
+                    char table[6][20] = {"Total symbols: ","Right: ", "Mistakes: ", "Total time: ", "Average speed: ", "Words in min: "};
 
                     itoa(symbols, buf, 10);
                     char *tsymb = strcat(table[0], buf);
+                    itoa((symbols - mist_count), buf, 10);
+                    char *rsymb = strcat(table[1], buf);
                     itoa(mist_count, buf, 10);
-                    char *tmist = strcat(table[1], buf);
+                    char *tmist = strcat(table[2], buf);
                     itoa((end - start) / CLK_TCK, buf, 10);
-                    char *ttime = strcat(table[2], buf);
+                    char *ttime = strcat(table[3], buf);
                     itoa((symbols / ((end - start) / CLK_TCK)) * 60, buf, 10);
-                    char *avspd = strcat(table[3], buf);
+                    char *avspd = strcat(table[4], buf);
+                    itoa((words / ((current_time - start) / CLK_TCK)) * 60, buf, 10);
+                    char *wspd = strcat(table[5], buf);
 
-                    InitTextField(4);
+                    InitTextField(3);
                     DrawText(dc, "GAME OVER", -1, &textfield, DT_SINGLELINE | DT_CENTER);
-                    InitTextField(5);
+                    InitTextField(4);
                     DrawText(dc, tsymb, -1, &textfield, DT_SINGLELINE | DT_CENTER);
+                    InitTextField(5);
+                    DrawText(dc, rsymb, -1, &textfield, DT_SINGLELINE | DT_CENTER);
                     InitTextField(6);
                     DrawText(dc, tmist, -1, &textfield, DT_SINGLELINE | DT_CENTER);
                     InitTextField(7);
                     DrawText(dc, ttime, -1, &textfield, DT_SINGLELINE | DT_CENTER);
                     InitTextField(8);
                     DrawText(dc, avspd, -1, &textfield, DT_SINGLELINE | DT_CENTER);
+                    InitTextField(9);
+                    DrawText(dc, wspd, -1, &textfield, DT_SINGLELINE | DT_CENTER);
 
                     isTheEnd = true;
                 }
