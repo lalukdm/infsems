@@ -108,10 +108,6 @@ int main (int argc, char *argv[]) {
 
         if(isStarted){
             if(!isClose){
-                CloseWindow(hwnd_set);
-                ShowWindow(hwnd, SW_SHOWNORMAL);
-                ShowPointer(dc);
-                isClose = true;
 
                 char lib_buf[128][32];
                 int lib_len = 0;
@@ -160,6 +156,12 @@ int main (int argc, char *argv[]) {
 
                 for (int i = 0; i <= counter; i++)
                     text_str[i] = buffer2[i];
+
+
+                CloseWindow(hwnd_set);
+                ShowWindow(hwnd, SW_SHOWNORMAL);
+                ShowPointer(dc);
+                isClose = true;
                 
                 start = clock();
             }
@@ -186,6 +188,7 @@ int main (int argc, char *argv[]) {
 
                     if(current_symb == ' ')
                         words++;
+                    printf("%d\n", words);
                     
                     MovePointer(line_len[line_count], &line_count);
                     ShowPointer(dc);
@@ -214,7 +217,7 @@ int main (int argc, char *argv[]) {
                     char *mist = strcat(table[1], buf);
                     itoa(Time - ((current_time - start) / CLK_TCK), buf, 10);
                     char *time = strcat(table[2], buf);
-                    itoa((symbols / ((current_time - start) / CLK_TCK)) * 60, buf, 10);
+                    itoa(symbols * (60 / ((current_time - start) / CLK_TCK)), buf, 10);
                     char *speed = strcat(table[3], buf);
 
                     InitTextField(9);
@@ -228,7 +231,8 @@ int main (int argc, char *argv[]) {
 
                     if (line_count % 5 == 0 && symbols >= current_total_symb)
                         j == 0;
-                    bool needEnd = ((Mistakes - mist_count) == 0) || ((Time - ((current_time - start) / CLK_TCK)) == 0);
+
+                    bool needEnd = ((Mistakes - mist_count) == 0) || ((Time - ((current_time - start) / CLK_TCK)) <= 0);
                     if ((line_count == counter && symbols >= (total_symb - 1)) || needEnd) {
                         end = clock();
                         isEnded = true;
@@ -250,9 +254,9 @@ int main (int argc, char *argv[]) {
                     char *tmist = strcat(table[2], buf);
                     itoa((end - start) / CLK_TCK, buf, 10);
                     char *ttime = strcat(table[3], buf);
-                    itoa((symbols / ((end - start) / CLK_TCK)) * 60, buf, 10);
+                    itoa(symbols * (60 / ((end - start) / CLK_TCK)), buf, 10);
                     char *avspd = strcat(table[4], buf);
-                    itoa((words / ((current_time - start) / CLK_TCK)) * 60, buf, 10);
+                    itoa(words * (60 / ((end - start) / CLK_TCK)), buf, 10);
                     char *wspd = strcat(table[5], buf);
 
                     InitTextField(3);
