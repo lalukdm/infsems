@@ -19,7 +19,7 @@ void InitTextField (int line){
 }
 
 
-int main (int argc, char *argv[]) {
+int main () {
 
     WNDCLASSA wcl;
         memset(&wcl, 0, sizeof(WNDCLASSA));
