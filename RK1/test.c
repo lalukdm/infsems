@@ -188,7 +188,6 @@ int main () {
 
                     if(current_symb == ' ')
                         words++;
-                    printf("%d\n", words);
                     
                     MovePointer(line_len[line_count], &line_count);
                     ShowPointer(dc);
